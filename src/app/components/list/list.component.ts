@@ -34,11 +34,11 @@ export class ListComponent implements OnInit {
    * @param dialog 
    */
   constructor(
-      private listService: ListService,
-      private router: Router,
-      private _snackBar: MatSnackBar,
-      public dialog: MatDialog
-    ) {
+    private listService: ListService,
+    private router: Router,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -64,10 +64,11 @@ export class ListComponent implements OnInit {
     if (userIds.length > 0) {
       for await (let id of userIds) {
         this.listService.getUser(id).subscribe(
-          (user: User) => {
-            this.assignUserToPost(user);
-          }
-        )
+          {
+            next: (user: User) => {
+              this.assignUserToPost(user);
+            }
+          });
       }
     }
   }
@@ -90,13 +91,14 @@ export class ListComponent implements OnInit {
    */
   private initTable(): void {
     this.listService.getPosts().subscribe(
-      (data: [Post]) => {
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.addUsersToTable();
-      }
-    )
+      {
+        next: (data: [Post]) => {
+          this.dataSource.data = data;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.addUsersToTable();
+        }
+      });
   }
 
   /**
@@ -104,7 +106,7 @@ export class ListComponent implements OnInit {
    * 
    * @param event The keyboard event
    */
-  public applyFilter(event: Event):void  {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -129,11 +131,12 @@ export class ListComponent implements OnInit {
       resp => {
         if (resp) {
           this.listService.deletePost(postId).subscribe(
-            () => {
-              this.dataSource.data = this.dataSource.data.filter(post => post.id !== postId);
-              this._snackBar.open('Post Deleted!', 'Dismiss', { duration: 2000 });
-            }
-          );
+            {
+              next: () => {
+                this.dataSource.data = this.dataSource.data.filter(post => post.id !== postId);
+                this._snackBar.open('Post Deleted!', 'Dismiss', { duration: 2000 });
+              }
+            });
         }
       }
     );
@@ -149,13 +152,14 @@ export class ListComponent implements OnInit {
       post => {
         if (post && post.title !== '' && post.userName !== '' && post.body !== '') {
           this.listService.createPost(post).subscribe(
-            (newPost: Post) => {
-              this.dataSource.data.push(newPost);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              this._snackBar.open('Post Created!', 'Dismiss', { duration: 2000 });
-            }
-          );
+            {
+              next: (newPost: Post) => {
+                this.dataSource.data.push(newPost);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this._snackBar.open('Post Created!', 'Dismiss', { duration: 2000 });
+              }
+            });
         } else {
           this._snackBar.open('Invalid post, please fill in all the fields!', 'Dismiss', { duration: 3000 });
         }

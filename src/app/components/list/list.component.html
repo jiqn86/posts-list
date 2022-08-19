@@ -1,0 +1,45 @@
+<div class="d-flex flex-row-reverse">
+    <button mat-fab color="primary" aria-label="Add new post!" title="Add new Post!" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<h1 class="text-center">Here you have the news!</h1>
+<mat-form-field appearance="standard" class="container-fluid">
+    <mat-label>Filter by author, title, and content</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. nesciunt quas odio" #input>
+</mat-form-field>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 container-fluid" matSort>
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+        <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.userName; else noUser">
+                {{element.userName}}
+            </div>
+            <ng-template #noUser>
+        <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+        </ng-template>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <mat-icon aria-hidden="false" aria-label="Read this post" title="Read this post" fontIcon="local_library"
+                color="primary" (click)="openPost(element.id)" class="pointer"></mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Edit this post" title="Edit this post" fontIcon="edit_note"
+                (click)="editPost(element.id)" class="pointer"></mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Delete this post" title="Delete this post" fontIcon="delete"
+                color="warn" (click)="openDeletePost(element.id)" class="pointer"></mat-icon>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Select page of users"></mat-paginator>

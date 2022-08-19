@@ -1,0 +1,27 @@
+<div class="container text-center modal-width">
+  <h1 mat-dialog-title>Say something...</h1>
+  <div mat-dialog-content>
+    <div class="input-name">
+      <mat-form-field class="modal-width">
+        <mat-label>Name</mat-label>
+        <input matInput maxlength="250" [(ngModel)]="post.userName">
+      </mat-form-field>
+    </div>
+    <div class="input-title">
+      <mat-form-field class="modal-width">
+        <mat-label>Title</mat-label>
+        <input matInput maxlength="250" [(ngModel)]="post.title">
+      </mat-form-field>
+    </div>
+    <div class="input-body">
+      <mat-form-field class="modal-width">
+        <mat-label>Post Body</mat-label>
+        <textarea matInput maxlength="250" [(ngModel)]="post.body"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button (click)="sendData()" cdkFocusInitial color="primary">Submit</button>
+  </div>
+</div>

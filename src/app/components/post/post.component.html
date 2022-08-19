@@ -1,0 +1,51 @@
+<div class="post-container" *ngIf="post && user">
+    <div class="d-flex flex-row-reverse pb-3">
+        <button mat-fab color="primary" aria-label="Edit post!" title="Edit Post!" (click)="isEdit = !isEdit"
+            [disabled]="isEdit">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar></div>
+            <mat-card-title class="capitalized">{{ post!.title }}</mat-card-title>
+            <mat-card-subtitle class="capitalized">{{user!.name || post!.userId}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="p-3">
+            <div *ngIf="isEdit; else body">
+                <mat-form-field class="post-text">
+                    <mat-label>Post Body</mat-label>
+                    <textarea matInput [(ngModel)]="post!.body" rows="5"></textarea>
+                </mat-form-field>
+                <div class="comment-save d-flex flex-row-reverse p-3">
+                    <button mat-raised-button color="primary" (click)="saveBodyChanges()">Save Changes</button>
+                    <button mat-raised-button color="secondary" (click)="isEdit = false" class="me-3">Cancel</button>
+                </div>
+            </div>
+            <ng-template #body>
+                <p class="p-3 capitalized">
+                    {{post!.body}}
+                </p>
+            </ng-template>
+            <div *ngIf="comments">
+                <h2>
+                    <mat-icon aria-hidden="false" aria-label="Comments on this post" title="Comments on this post"
+                        fontIcon="edit_note"></mat-icon>
+                    Comments
+                </h2>
+                <mat-divider class="p-3"></mat-divider>
+                <div *ngFor="let comment of comments">
+                    <span class="comment-name">{{comment.name}}</span>
+                    <span class="comment-email">{{comment.email}}</span>
+                    <p class="comment-body capitalized">{{comment.body}}</p>
+                    <mat-divider class="p-2"></mat-divider>
+                </div>
+            </div>
+            <mat-divider *ngIf="!comments"></mat-divider>
+        </mat-card-content>
+        <mat-card-actions class="p-3 d-flex flex-row-reverse">
+            <button mat-raised-button color="primary" (click)="openDialog()">Comment</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

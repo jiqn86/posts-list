@@ -1,0 +1,24 @@
+.comment-name {
+    font-weight: bold;
+    padding: 10px;
+    text-transform: capitalize;
+}
+.comment-email {
+    display: block;
+    color: gray;
+    padding-left: 10px;
+    text-transform: lowercase;
+}
+
+.post-text {
+    padding: 15px;
+    width: 100%;
+}
+
+.post-text textarea {
+    width: 100%;
+}
+
+.capitalized::first-letter {
+    text-transform: capitalize;
+}

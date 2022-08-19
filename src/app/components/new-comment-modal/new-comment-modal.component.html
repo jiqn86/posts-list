@@ -1,0 +1,21 @@
+<div class="container text-center modal-witdh">
+  <h1 mat-dialog-title>Say something...</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="modal-witdh">
+      <mat-label>Name</mat-label>
+      <input matInput maxlength="250" [(ngModel)]="newComment.name">
+    </mat-form-field>
+    <mat-form-field class="modal-witdh">
+      <mat-label>email</mat-label>
+      <input matInput maxlength="250" [(ngModel)]="newComment.email">
+    </mat-form-field>
+    <mat-form-field class="modal-witdh">
+      <mat-label>Comment</mat-label>
+      <textarea matInput maxlength="250" [(ngModel)]="newComment.body"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button (click)="sendData()" cdkFocusInitial color="primary">Submit</button>
+  </div>
+</div>
